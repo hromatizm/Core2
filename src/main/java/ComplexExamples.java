@@ -88,9 +88,11 @@ public class ComplexExamples {
      * Removes nulls and duplicate Persons.
      * Counts number of Persons with the same name.
      * Returns TreeMap, which is naturally ordered by key (by default), or can be sorted with comparator.
+     * If argument is null returns empty TreeMap.
      */
     public static TreeMap<String, Long> countNames(Person[] array) {
-
+        if (array == null)
+            return new TreeMap<>();
         return Arrays.stream(array)
                        .filter(Objects::nonNull)
                        .distinct()
