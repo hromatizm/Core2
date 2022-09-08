@@ -103,9 +103,11 @@ public class ComplexExamples {
 
     /**
      * Finds the first pair of numbers in the array, which in total gives the number "target" passed as an argument.
-     * If it doesn't find it, it returns an empty array.
+     * If it doesn't find "target" or original array is null it returns an empty array.
      */
     public static int[] findPairNLogN(int[] originalArray, int targetSum) { // algorithm complexity: O(n * Log n)
+        if (originalArray == null)
+            return new int[]{};
         // We need extra memory for the sorted auxiliary array to find exactly the first pair
         int[] sortedArray = Arrays.stream(originalArray).sorted().toArray(); // Java quick sort O(n * Log n)
         for (int i = 0; i < originalArray.length - 1; i++) {
@@ -129,7 +131,7 @@ public class ComplexExamples {
     /**
      * Checks that the sorted array contains more than one number equal to the number with the specified index
      */
-    public static boolean checkForDuplicate(int[] array, int index) {
+    private static boolean checkForDuplicate(int[] array, int index) {
         int number = array[index];
         // Need a check on the array boundary
         if (index < array.length - 1 && array[index + 1] == number)
@@ -142,9 +144,11 @@ public class ComplexExamples {
 
     /**
      * Finds the first pair of numbers in the array, which in total gives the number "target" passed as an argument.
-     * If it doesn't find it, it returns an empty array.
+     * If it doesn't find "target" or original array is null it returns an empty array.
      */
     public static int[] findPairQuadratic(int[] array, int target) { // algorithm complexity: O(n * n)
+        if (array == null)
+            return new int[]{};
         for (int i = 0; i < array.length - 1; i++) {
             for (int j = i + 1; j < array.length; j++) {
                 if (array[i] + array[j] == target)
@@ -156,14 +160,14 @@ public class ComplexExamples {
 
     /**
      * Checks that the characters in the string 'word' are in the same order as in the string 'section'.
-     * If 'word' argument is empty, it always returns true.
-     * If the 'section' argument is empty, but the 'word' argument is not empty, it returns false.
+     * If 'word' argument is empty or null, it always returns true.
+     * If the 'section' argument is empty or null, but the 'word' argument is not empty, it returns false.
      */
     public static boolean fuzzySearch(String word, String section) {
-        if (word.length() == 0)     return true;
-        if (section.length() == 0)  return false;
+        if (word == null || word.length() == 0)       return true;
+        if (section == null || section.length() == 0) return false;
         // Quick check that 'word' and 'section' are the same string literal in the string pool:
-        if (word == section)        return true;
+        if (word == section)                          return true;
 
         // algorithm complexity:
         //      O(wl + sl) where wl = word.length, sl = section.length - in the case when the result is 'true'
@@ -417,7 +421,19 @@ public class ComplexExamples {
 
         word = "";
         section = "";
-        assert (fuzzySearch(word, section)) : "Wrong fuzzySearch 'ABC' in ''. Should be true";
+        assert (fuzzySearch(word, section)) : "Wrong fuzzySearch '' in ''. Should be true";
+        
+        word = null;
+        section = "ABC";
+        assert (fuzzySearch(word, section)) : "Wrong fuzzySearch null in 'ABC'. Should be true";
+
+        word = "ABC";
+        section = null;
+        assert (!fuzzySearch(word, section)) : "Wrong fuzzySearch 'ABC' in null. Should be false";
+
+        word = null;
+        section = null;
+        assert (fuzzySearch(word, section)) : "Wrong fuzzySearch null in null. Should be true";
 
         System.out.println("\nFuzzySearch: Test passed for empty arguments");
 
@@ -525,4 +541,3 @@ public class ComplexExamples {
         return sb.toString();
     }
 }
-
