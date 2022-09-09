@@ -96,6 +96,8 @@ public class ComplexExamples {
         return Arrays.stream(array)
                        .filter(Objects::nonNull)
                        .distinct()
+                       .sorted(Comparator.comparing(Person::getName)
+                                        .thenComparing(Person::getId))
                        .collect(Collectors.groupingBy(
                                Person::getName,
                                TreeMap::new,
